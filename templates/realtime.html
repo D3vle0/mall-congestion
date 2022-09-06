@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css" rel="stylesheet">
+    <title>쇼핑몰 혼잡도</title>
+</head>
+<style>
+    body {
+        text-align: center;
+        font-family: 'NanumSquareRound';
+        max-width: 580px;
+        margin: 0 auto;
+    }
+
+    h1 {
+        margin-top: 10px;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    .congestion-box {
+        width:300px;
+        height: 150px;
+        margin: 0 auto;
+        padding-top: 30px;
+        border-radius: 10px;
+    }
+</style>
+
+<body>
+    <nav class="navbar navbar-expand-lg" style="background-color: #2dedc4;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/" style="color: #000;">🛍️ 쇼핑몰 혼잡도</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/" style="color: #000;">실시간</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/history" style="color: #000;">혼잡도 기록</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/stat" style="color: #000;">통계성</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/search" style="color: #000;">장소 검색</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <h1>쇼핑몰 실시간 혼잡도</h1>
+    <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <p>👋 도움말이 필요한가요?</p>
+    </a>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">도움말</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="text-align: left">
+                    👋 쇼핑몰 혼잡도 검색 사이트에 오신 것을 환영합니다!<br>
+                    이 사이트에서는 네 가지 서비스를 제공합니다.<br><br>
+                    <h5>1. 실시간 혼잡도</h5>
+                    <p>요청한 쇼핑몰의 실시간 혼잡도를 제공합니다.</p>
+                    <h5>2. 혼잡도 기록</h5>
+                    <p>최근 30일 이내의 시간대별 혼잡도 기록을 제공합니다.</p>
+                    <h5>3. 통계성 혼잡도</h5>
+                    <p>검색한 요일에 대한 평균적인 혼잡도를 제공합니다.</p>
+                    <h5>4. 장소 검색</h5>
+                    <p>혼잡도 데이터가 제공되는 쇼핑몰을 검색할 수 있습니다.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <h2>{{mall}}</h2>
+    {% if level <= 3 %}
+    <div class="congestion-box" style="background-color: rgb(138, 175, 255)">
+    {% elif 3 <= level <= 5 %}
+        <div class="congestion-box" style="background-color: rgb(172, 255, 149)">
+    {% elif 6 <= level <= 8 %}
+        <div class="congestion-box" style="background-color: rgb(254, 187, 87);">
+    {% elif 9 <= level %}
+        <div class="congestion-box" style="background-color: rgb(255, 120, 120);">
+    {% endif %}
+        <h3>{{level}}단계</h3>
+        {% if level <= 3 %}
+            <p>한가
+        {% elif 3 <= level <= 5 %}
+            <p>보통
+        {% elif 6 <= level <= 8 %}
+            <p>다소 혼잡
+        {% elif 9 <= level %}
+            <p>매우 혼잡
+        {% endif %}
+        <br>(100m<sup>2</sup> 당 {{congestion|round(3)}}명)</p>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+    crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"
+    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+
+</html>
