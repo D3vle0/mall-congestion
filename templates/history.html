@@ -50,7 +50,7 @@
             </div>
         </div>
     </nav>
-    <h1>쇼핑몰 실시간 혼잡도</h1>
+    <h1>쇼핑몰 혼잡도 기록</h1>
     <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">
         <p>👋 도움말이 필요한가요?</p>
     </a>
@@ -78,11 +78,13 @@
         </div>
     </div>
     <br>
-    <form action="/" method="post">
+    <form action="/history" method="post">
+        검색할 날짜 <input type="date" name="date" id="" required>
         <div class="form-floating mb-3" style="text-align: left;">
-            <input type="text" class="form-control" id="floatingInput" placeholder="ex) 더현대서울" onkeyup="filter()" autocomplete="off">
+            <input type="text" class="form-control" id="floatingInput" placeholder="ex) 더현대서울" onkeyup="filter()" autocomplete="off" name="mall" required>
             <label for="floatingInput">쇼핑몰 이름</label>
         </div>
+        <input class="btn btn-primary" type="submit" value="검색">
         <table class="table table-striped" id="search-table">
 
         </table>
@@ -102,7 +104,7 @@
                         result_id.push(data["contents"][i]["poiId"]);
                         document.getElementById("search-table").innerHTML = "<tbody>";
                         for (var j = 0; j < result.length; j++) {
-                            document.getElementById("search-table").innerHTML += `<tr><th scope='row'>${j + 1}</th><td><a href="/realtime/${result_id[j]}">${result[j]}</a></td></tr>`;
+                            document.getElementById("search-table").innerHTML += `<tr><th scope='row'>${j + 1}</th><td><span style='color: #0d6efd;' onclick="completeInput('${result[j]}')">${result[j]}</span></td></tr>`;
                         }
                         document.getElementById("search-table").innerHTML += "</tbody>";
                     }
@@ -113,11 +115,15 @@
             document.getElementById("search-table").innerHTML = "";
         }
     }
+
+    function completeInput(mall) {
+        document.getElementById("floatingInput").value = mall;
+    }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
     crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"
     integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </html>

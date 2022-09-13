@@ -16,6 +16,33 @@ app = Flask(__name__, static_folder='./static/')
 def init():
     return render_template("index.html")
 
+@app.route('/history', methods=["GET"])
+def history():
+    return render_template("history.html")
+
+@app.route('/history', methods=["POST"])
+def history_post():
+    with open('static/place.json', 'r') as f:
+        data = json.load(f)
+    for i in data["contents"]:
+        if i["poiName"] == request.form["mall"]:
+            id = i["poiId"]
+            break
+    
+    url = f"https://apis.openapi.sk.com/puzzle/congestion/raw/hourly/pois/{id}?date={request.form['date'].replace('-', '')}"
+
+    headers = {
+        "Accept": "application/json",
+        "appkey": os.environ.get("APPKEY"),
+    }
+
+    response = requests.get(url, headers=headers)
+
+    try:
+        return render_template("history_result.html", data=response.json(), mall=request.form["mall"], date=request.form["date"])
+    except:
+        return '<script>alert("검색 결과가 없습니다!");window.history.back();</script>'
+
 
 @app.route('/realtime/<page>', methods=["GET"])
 def realtime(page):
