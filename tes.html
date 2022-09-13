@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <canvas id="myChart"></canvas>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        // type : 'bar' = 막대차트를 의미합니다.
+        type: 'bar', // 
+        data: {
+            labels: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'],
+            datasets: [{
+                label: '혼잡도',
+                backgroundColor: [
+                    'rgb(138, 175, 255)',
+                    'rgb(138, 175, 255)',
+                    'rgb(138, 175, 255)',
+                    'rgb(138, 175, 255)',
+                    'rgb(138, 175, 255)',
+                    'rgb(138, 175, 255)',
+                    'rgb(138, 175, 255)',
+                    'rgb(138, 175, 255)',
+                    'rgb(138, 175, 255)',
+                    'rgb(138, 175, 255)',
+                    'rgb(138, 175, 255)',
+                    'rgb(172, 255, 149)',
+                    'rgb(254, 187, 87)',
+                    'rgb(254, 187, 87)',
+                    'rgb(255, 120, 120)',
+                    'rgb(255, 120, 120)',
+                    'rgb(255, 120, 120)',
+                    'rgb(255, 120, 120)',
+                    'rgb(255, 120, 120)',
+                    'rgb(254, 187, 87)',
+                    'rgb(172, 255, 149)',
+                    'rgb(172, 255, 149)',
+                    'rgb(138, 175, 255)',
+                    'rgb(138, 175, 255)'
+                ],
+                borderColor: 'rgb(255, 99, 132)',
+                data: [1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 5, 7, 8, 9, 9, 10, 10, 9, 6, 5, 4, 2, 1]
+            }]
+        },
+    });
+</script>
+
+</html>

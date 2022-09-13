@@ -25,6 +25,14 @@
     a {
         text-decoration: none;
     }
+
+    .congestion-box {
+        width:300px;
+        height: 150px;
+        margin: 0 auto;
+        padding-top: 30px;
+        border-radius: 10px;
+    }
 </style>
 
 <body>
@@ -63,13 +71,15 @@
                 </div>
                 <div class="modal-body" style="text-align: left">
                     👋 쇼핑몰 혼잡도 검색 사이트에 오신 것을 환영합니다!<br>
-                    이 사이트에서는 세 가지 서비스를 제공합니다.<br><br>
+                    이 사이트에서는 네 가지 서비스를 제공합니다.<br><br>
                     <h5>1. 실시간 혼잡도</h5>
                     <p>요청한 쇼핑몰의 실시간 혼잡도를 제공합니다.</p>
                     <h5>2. 혼잡도 기록</h5>
                     <p>최근 30일 이내의 시간대별 혼잡도 기록을 제공합니다.</p>
                     <h5>3. 통계성 혼잡도</h5>
                     <p>검색한 요일에 대한 평균적인 혼잡도를 제공합니다.</p>
+                    <h5>4. 장소 검색</h5>
+                    <p>혼잡도 데이터가 제공되는 쇼핑몰을 검색할 수 있습니다.</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
@@ -78,42 +88,11 @@
         </div>
     </div>
     <br>
-    <form action="/" method="post">
-        <div class="form-floating mb-3" style="text-align: left;">
-            <input type="text" class="form-control" id="floatingInput" placeholder="ex) 더현대서울" onkeyup="filter()" autocomplete="off">
-            <label for="floatingInput">쇼핑몰 이름</label>
-        </div>
-        <table class="table table-striped" id="search-table">
-
-        </table>
-    </form>
+    <h2>{{mall}} ({{date}})</h2>
+    {% for i in range(24): %}
+        <li>{{i}}시: {{ data["contents"]["raw"][i]["congestionLevel"] }}단계</li>
+    {% endfor%}
 </body>
-<script>
-    function filter() {
-        value = document.getElementById("floatingInput").value.toUpperCase();
-        if (value) {
-            var jsonLocation = "{{ url_for('static', filename='place.json') }}";
-            $.getJSON(jsonLocation, function (data) {
-                var result = [];
-                var result_id = [];
-                for (var i = 0; i < data["contents"].length; i++) {
-                    if (data["contents"][i]["poiName"].indexOf(value) > -1) {
-                        result.push(data["contents"][i]["poiName"]);
-                        result_id.push(data["contents"][i]["poiId"]);
-                        document.getElementById("search-table").innerHTML = "<tbody>";
-                        for (var j = 0; j < result.length; j++) {
-                            document.getElementById("search-table").innerHTML += `<tr><th scope='row'>${j + 1}</th><td><a href="/realtime/${result_id[j]}">${result[j]}</a></td></tr>`;
-                        }
-                        document.getElementById("search-table").innerHTML += "</tbody>";
-                    }
-                }
-            });
-        }
-        else {
-            document.getElementById("search-table").innerHTML = "";
-        }
-    }
-</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
     crossorigin="anonymous"></script>
